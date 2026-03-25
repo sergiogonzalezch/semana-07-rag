@@ -1,0 +1,11 @@
+langchain
+langchain-classic
+langchain-openai
+langchain-community
+langchain-huggingface
+langchain-text-splitters
+sentence-transformers
+pypdf
+faiss-cpu
+python-dotenv
+fpdf2
