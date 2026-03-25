@@ -162,6 +162,14 @@ def ask_question(rag_chain, question, chat_history, show_chunks=False):
 
     return result["answer"]
 
+def log_chat_history(chat_history, log_file="logs/chat_history.txt"):
+    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+    with open(log_file, "a", encoding="utf-8") as f:
+        for question, answer in chat_history:
+            f.write(f"Usuario: {question}\n")
+            f.write(f"Asistente: {answer}\n")
+            f.write("-" * 40 + "\n")
+
 
 def main():
     print("🚀 Iniciando sistema RAG...\n")
@@ -187,6 +195,7 @@ def main():
             break
         answer = ask_question(rag_chain, question, chat_history, show_chunks=False)
         chat_history.append((question, answer))
+        log_chat_history(chat_history)
 
 
 if __name__ == "__main__":
