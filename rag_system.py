@@ -18,6 +18,8 @@ VECTORSTORE_PATH = "vectorstore_index"
 
 
 def load_all_documents(directory="./docs"):
+    """Carga todos los documentos de texto y PDF desde el directorio especificado.
+    """
     print(f"\nCargando documentos de {directory}...")
     documents = []
 
@@ -33,6 +35,7 @@ def load_all_documents(directory="./docs"):
 
 
 def split_documents(documents):
+    """Realiza el chunking de los documentos usando RecursiveCharacterTextSplitter."""
     print("\nDividiendo documentos en chunks...")
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=300,
@@ -46,6 +49,7 @@ def split_documents(documents):
 
 
 def get_embeddings():
+    """Carga el modelo de embeddings de HuggingFace. Se configura para usar CPU y normalizar los embeddings."""
     return HuggingFaceEmbeddings(
         model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
         model_kwargs={"device": "cpu"},
@@ -54,6 +58,7 @@ def get_embeddings():
 
 
 def load_or_create_vectorstore(chunks):
+    """Carga un vector store existente desde disco o crea uno nuevo a partir de los chunks."""
     embeddings = get_embeddings()
 
     if Path(VECTORSTORE_PATH).exists():
@@ -88,6 +93,7 @@ def load_or_create_vectorstore(chunks):
 
 
 def get_llm():
+    """Configura el modelo de lenguaje de OpenAI usando variables de entorno para la clave API, el nombre del modelo y la URL base."""
     return ChatOpenAI(
         model=os.getenv("MODEL_NAME", "gpt-4o-mini"),
         temperature=0,
